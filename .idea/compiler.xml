@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="quota-service" />
-        <module name="quota-dal" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="quota-dal" target="1.8" />
+      <module name="quota-service" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

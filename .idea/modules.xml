@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/quota-parent.iml" filepath="$PROJECT_DIR$/quota-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/quota.iml" filepath="$PROJECT_DIR$/quota.iml" />
     </modules>
   </component>
 </project>

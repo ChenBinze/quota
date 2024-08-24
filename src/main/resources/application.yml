@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: quota
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/CHEN
+    username: root
+    password: chen12345
+#    type: com.alibaba.druid.pool.DruidDataSource
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

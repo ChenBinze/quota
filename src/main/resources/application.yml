@@ -1,11 +1,15 @@
 spring:
+  profiles:
+    active: dev
   application:
     name: quota
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/CHEN
-    username: root
-    password: chen12345
-#    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/db_test?serverTimezone=GMT&useSSL=false
+      username: root
+      password: chen12345
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+  type-aliases-package=cn: com.quota.dal.pojo

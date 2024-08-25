@@ -4,11 +4,10 @@ import com.quota.api.reponse.QuotaOperateResponse;
 
 public class QuotaOperateResponseUtils {
 
-    public static QuotaOperateResponse buidQuotaOperateResponse(String code, String msg, String remark) {
+    public static QuotaOperateResponse buidQuotaOperateResponse(String code, String msg) {
         QuotaOperateResponse quotaOperateResponse = new QuotaOperateResponse();
         quotaOperateResponse.setErrorCode(code);
         quotaOperateResponse.setErrorMessage(msg);
-        quotaOperateResponse.setRemark(remark);
         return quotaOperateResponse;
     }
 

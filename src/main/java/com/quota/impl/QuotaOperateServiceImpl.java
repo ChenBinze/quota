@@ -1,5 +1,6 @@
 package com.quota.impl;
 
+import com.quota.api.enums.ErrorEnum;
 import com.quota.api.enums.QuotaOperateTypeEnum;
 import com.quota.api.reponse.QuotaOperateResponse;
 import com.quota.api.request.QuotaOperateRequest;
@@ -24,13 +25,16 @@ public class QuotaOperateServiceImpl implements QuotaOperateService {
                     .route(QuotaOperateTypeEnum.getByCode(request.getOperateType()));
             if (null == quotaOperateTemplate) {
 //                log.error("不支持该操作类型[{}]", request.getOperateType());
-//                throw new QuotaException();
+                throw new QuotaException(ErrorEnum.ACTION_NOT_ALLOW.getErrorCode(),
+                        ErrorEnum.ACTION_NOT_ALLOW.getErrorMsg());
             }
             return quotaOperateTemplate.doOperate(request);
         } catch (QuotaException e) {
-            return QuotaOperateResponseUtils.buidQuotaOperateResponse();
+            return QuotaOperateResponseUtils.buidQuotaOperateResponse(
+                    e.getErrorCode(), e.getErrorMsg());
         } catch (Exception e) {
-            return QuotaOperateResponseUtils.buidQuotaOperateResponse();
+            return QuotaOperateResponseUtils.buidQuotaOperateResponse(ErrorEnum.SYSTEM_ERROR.getErrorCode(),
+                    ErrorEnum.SYSTEM_ERROR.getErrorMsg());
         }
     }
 }

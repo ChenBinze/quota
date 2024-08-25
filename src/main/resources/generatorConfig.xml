@@ -39,8 +39,8 @@
         </javaClientGenerator>
 
         <!-- 相关表的配置 -->
-        <table tableName="quota_flow" domainObjectName="QuotaFlow" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false"/>
+        <table tableName="quota_flow" domainObjectName="QuotaFlow" enableCountByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
     </context>
 </generatorConfiguration>

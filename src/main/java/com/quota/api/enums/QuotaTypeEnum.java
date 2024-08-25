@@ -17,6 +17,15 @@ public enum QuotaTypeEnum {
         this.msg = msg;
     }
 
+    public static QuotaTypeEnum getByCode(String code) {
+        for (QuotaTypeEnum quotaTypeEnum : QuotaTypeEnum.values()) {
+            if (quotaTypeEnum.getCode() == code) {
+                return quotaTypeEnum;
+            }
+        }
+        return null;
+    }
+
     public String getCode() {
         return code;
     }

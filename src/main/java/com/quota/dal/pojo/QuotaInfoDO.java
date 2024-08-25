@@ -56,7 +56,7 @@ public class QuotaInfoDO {
      *
      * @mbg.generated
      */
-    private Byte status;
+    private String status;
 
     /**
      *
@@ -153,7 +153,7 @@ public class QuotaInfoDO {
      *
      * @mbg.generated
      */
-    public void setQuotatype(String quotaType) {
+    public void setQuotaType(String quotaType) {
         this.quotaType = quotaType == null ? null : quotaType.trim();
     }
 
@@ -213,7 +213,7 @@ public class QuotaInfoDO {
      *
      * @mbg.generated
      */
-    public Byte getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -225,7 +225,7 @@ public class QuotaInfoDO {
      *
      * @mbg.generated
      */
-    public void setStatus(Byte status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

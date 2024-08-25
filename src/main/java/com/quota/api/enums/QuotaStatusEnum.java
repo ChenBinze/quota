@@ -1,25 +1,23 @@
 package com.quota.api.enums;
 
-/**
- * 币种
- */
-public enum CurrencyEnum {
-    CNY("156", "人民币"),
-    USD("840", "美元");
+public enum QuotaStatusEnum {
+    FREEZE("freeze", "冻结"),
+    NORMAL("normal", "正常"),
+    CANCEL("cancel", "注销");
 
     private String code;
 
     private String msg;
 
-    CurrencyEnum(String code, String msg) {
+    QuotaStatusEnum(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public static CurrencyEnum getByCode(String code) {
-        for (CurrencyEnum currencyEnum : CurrencyEnum.values()) {
-            if (currencyEnum.getCode() == code) {
-                return currencyEnum;
+    public static QuotaStatusEnum getByCode(String code) {
+        for (QuotaStatusEnum quotaStatusEnum : QuotaStatusEnum.values()) {
+            if (quotaStatusEnum.getCode() == code) {
+                return quotaStatusEnum;
             }
         }
         return null;

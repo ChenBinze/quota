@@ -9,12 +9,10 @@ import com.quota.impl.exception.QuotaException;
 import com.quota.impl.factory.QuotaOperateTemplateFactory;
 import com.quota.impl.template.QuotaOperateTemplate;
 import com.quota.impl.util.QuotaOperateResponseUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
 public class QuotaOperateServiceImpl implements QuotaOperateService {
 
     @Autowired
@@ -26,7 +24,7 @@ public class QuotaOperateServiceImpl implements QuotaOperateService {
             QuotaOperateTemplate quotaOperateTemplate = quotaOperateTemplateFactory
                     .route(QuotaOperateTypeEnum.getByCode(request.getOperateType()));
             if (null == quotaOperateTemplate) {
-                log.error("不支持该操作类型[{}]", request.getOperateType());
+//                log.error("不支持该操作类型[{}]", request.getOperateType());
                 throw new QuotaException(ErrorEnum.ACTION_NOT_ALLOW.getErrorCode(),
                         ErrorEnum.ACTION_NOT_ALLOW.getErrorMsg());
             }

@@ -1,6 +1,7 @@
-package com.quota.dal.dao;
+package com.quota.dal.mapper;
 
 import com.quota.dal.pojo.QuotaFlowDO;
+import org.springframework.stereotype.Repository;
 
 public interface QuotaFlowMapper {
     /**

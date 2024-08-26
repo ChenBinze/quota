@@ -7,6 +7,7 @@ public enum ErrorEnum {
     INVALID_PARAMETER("INVALID_PARAMETER", "参数异常"),
     REPEATED_APPLY("REPEATED_APPLY", "重复额度申请"),
     QUOTA_NOT_EXIST("QUOTA_NOT_EXIST", "额度信息不存在"),
+    QUOTA_NOT_ENOUGH("QUOTA_NOT_ENOUGH", "额度不足"),
     ;
 
     private String errorCode;

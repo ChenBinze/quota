@@ -23,7 +23,7 @@
     insert into quota_flow (clientId, quotaType, currency, amount
       operateType, remark, created,
       modified)
-    values (#{clientid,jdbcType=VARCHAR}, #{quotatype,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR},
+    values (#{clientId,jdbcType=VARCHAR}, #{quotaType,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR},
       #{amount,jdbcType=DECIMAL},#{operateType,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
       #{created,jdbcType=TIMESTAMP}, #{modified,jdbcType=TIMESTAMP})
   </insert>
@@ -34,10 +34,10 @@
     -->
     insert into quota_flow
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="clientid != null">
+      <if test="clientId != null">
         clientId,
       </if>
-      <if test="quotatype != null">
+      <if test="quotaType != null">
         quotaType,
       </if>
       <if test="currency != null">
@@ -47,7 +47,7 @@
         amount,
       </if>
       <if test="operateType != null">
-        bizType,
+        operateType,
       </if>
       <if test="remark != null">
         remark,
@@ -60,11 +60,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="clientid != null">
-        #{clientid,jdbcType=VARCHAR},
+      <if test="clientId != null">
+        #{clientId,jdbcType=VARCHAR},
       </if>
-      <if test="quotatype != null">
-        #{quotatype,jdbcType=VARCHAR},
+      <if test="quotaType != null">
+        #{quotaType,jdbcType=VARCHAR},
       </if>
       <if test="currency != null">
         #{currency,jdbcType=VARCHAR},

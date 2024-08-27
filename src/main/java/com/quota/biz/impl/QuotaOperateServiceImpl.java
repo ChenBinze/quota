@@ -1,14 +1,14 @@
-package com.quota.impl;
+package com.quota.biz.impl;
 
 import com.quota.api.enums.ErrorEnum;
 import com.quota.api.enums.QuotaOperateTypeEnum;
 import com.quota.api.reponse.QuotaOperateResponse;
 import com.quota.api.request.QuotaOperateRequest;
 import com.quota.api.service.QuotaOperateService;
-import com.quota.impl.exception.QuotaException;
-import com.quota.impl.factory.QuotaOperateTemplateFactory;
-import com.quota.impl.template.QuotaOperateTemplate;
-import com.quota.impl.util.QuotaOperateResponseUtils;
+import com.quota.biz.exception.QuotaException;
+import com.quota.biz.factory.QuotaOperateTemplateFactory;
+import com.quota.biz.template.QuotaOperateTemplate;
+import com.quota.biz.util.QuotaOperateResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

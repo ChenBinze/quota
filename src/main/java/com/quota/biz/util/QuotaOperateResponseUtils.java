@@ -1,4 +1,4 @@
-package com.quota.impl.util;
+package com.quota.biz.util;
 
 import com.quota.api.reponse.QuotaOperateResponse;
 

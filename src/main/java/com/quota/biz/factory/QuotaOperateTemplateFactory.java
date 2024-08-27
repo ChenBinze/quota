@@ -1,7 +1,7 @@
-package com.quota.impl.factory;
+package com.quota.biz.factory;
 
 import com.quota.api.enums.QuotaOperateTypeEnum;
-import com.quota.impl.template.QuotaOperateTemplate;
+import com.quota.biz.template.QuotaOperateTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

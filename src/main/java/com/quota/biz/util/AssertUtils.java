@@ -1,6 +1,6 @@
-package com.quota.impl.util;
+package com.quota.biz.util;
 
-import com.quota.impl.exception.QuotaException;
+import com.quota.biz.exception.QuotaException;
 
 public class AssertUtils {
     public static void isTrue(boolean match, String errorCode, String errorMessage) {

@@ -1,10 +1,8 @@
-package com.quota.impl.template;
+package com.quota.biz.template;
 
 import com.quota.api.reponse.QuotaOperateResponse;
 import com.quota.api.request.QuotaOperateRequest;
-import com.quota.impl.route.QuotaOperateRoute;
-
-import java.util.List;
+import com.quota.biz.route.QuotaOperateRoute;
 
 public abstract class QuotaOperateTemplate implements QuotaOperateRoute {
 

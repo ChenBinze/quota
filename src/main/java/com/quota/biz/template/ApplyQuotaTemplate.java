@@ -1,13 +1,13 @@
-package com.quota.impl.template;
+package com.quota.biz.template;
 
 import com.quota.api.enums.*;
 import com.quota.api.reponse.QuotaOperateResponse;
 import com.quota.api.request.QuotaOperateRequest;
 import com.quota.dal.mapper.QuotaInfoMapper;
 import com.quota.dal.pojo.QuotaInfoDO;
-import com.quota.impl.exception.QuotaException;
-import com.quota.impl.util.AssertUtils;
-import com.quota.impl.util.QuotaOperateResponseUtils;
+import com.quota.biz.exception.QuotaException;
+import com.quota.biz.util.AssertUtils;
+import com.quota.biz.util.QuotaOperateResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +71,7 @@ public class ApplyQuotaTemplate extends QuotaOperateTemplate{
     }
 
     private void checkApplyRequest(QuotaOperateRequest request) {
-        AssertUtils.isTrue(request == null, ErrorEnum.INVALID_PARAMETER.getErrorCode(), "请求为空");
+        AssertUtils.isTrue(request == null, ErrorEnum.INVALID_PARAMETER.getErrorCode(), "申请请求为空");
         AssertUtils.isTrue(StringUtils.isBlank(request.getClientId()),
                 ErrorEnum.INVALID_PARAMETER.getErrorCode(),"用户id为空");
         AssertUtils.isTrue(StringUtils.isBlank(request.getQuotaType()),

@@ -1,4 +1,4 @@
-package com.quota.impl.exception;
+package com.quota.biz.exception;
 
 public class QuotaException extends RuntimeException {
     private static final long serialVersionUID = -9161822799015362271L;

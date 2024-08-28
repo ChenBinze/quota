@@ -8,6 +8,7 @@ import com.quota.api.service.QuotaOperateService;
 import com.quota.biz.exception.QuotaException;
 import com.quota.biz.factory.QuotaOperateTemplateFactory;
 import com.quota.biz.template.QuotaOperateTemplate;
+import com.quota.biz.util.AssertUtils;
 import com.quota.biz.util.QuotaOperateResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class QuotaOperateServiceImpl implements QuotaOperateService {
     public QuotaOperateResponse operate(QuotaOperateRequest request) {
 
         try {
+            AssertUtils.isTrue(request == null, ErrorEnum.INVALID_PARAMETER.getErrorCode(), "request is null");
             QuotaOperateTemplate quotaOperateTemplate = quotaOperateTemplateFactory
                     .route(QuotaOperateTypeEnum.getByCode(request.getOperateType()));
             if (null == quotaOperateTemplate) {

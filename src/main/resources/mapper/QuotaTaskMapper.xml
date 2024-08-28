@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quota.dal.mapper.QuotaTaskMapper">
+
+    <sql id="Base_Column_List">
+        taskId, clientId, quotaType, currency, amount, operateType, retryCount, created, modified
+    </sql>
+
+    <select id="selectPageList" resultType="com.quota.dal.pojo.QuotaTaskDO">
+        select <include refid="Base_Column_List" />
+        from quota_task
+        where retryCount = #{retryCount}
+        limit #{start},#{pageSize}
+    </select>
+
+    <delete id="deleteByTaskId">
+        DELETE FROM quota_task
+        where taskId = #{taskId}
+    </delete>
+
+    <update id="updateRetryCountByTaskId">
+        update quota_task
+        set retryCount = #{retryCount}
+        where taskId = #{taskId}
+        and retryCount = #{oriRetryCount}
+    </update>
+</mapper>

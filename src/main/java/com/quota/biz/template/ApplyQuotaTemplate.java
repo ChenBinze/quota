@@ -71,19 +71,18 @@ public class ApplyQuotaTemplate extends QuotaOperateTemplate{
     }
 
     private void checkApplyRequest(QuotaOperateRequest request) {
-        AssertUtils.isTrue(request == null, ErrorEnum.INVALID_PARAMETER.getErrorCode(), "申请请求为空");
         AssertUtils.isTrue(StringUtils.isBlank(request.getClientId()),
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"用户id为空");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"clientId is null");
         AssertUtils.isTrue(StringUtils.isBlank(request.getQuotaType()),
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"额度类型为空");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"quotaType is null");
         AssertUtils.isTrue(StringUtils.isBlank(request.getCurrency()),
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"币种为空");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"currency is null");
         AssertUtils.isTrue(QuotaTypeEnum.getByCode(request.getQuotaType()) == null,
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"额度类型不在允许范围内");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"quotaType is not allowed");
         AssertUtils.isTrue(CurrencyEnum.getByCode(request.getCurrency()) == null,
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"币种类型不在允许范围内");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"currency is not allowed");
         AssertUtils.isTrue(request.getAmount() != null && request.getAmount().compareTo(BigDecimal.ZERO) < 0,
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"金额异常");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"abnormal amount");
     }
 
     private List<QuotaInfoDO> selectList(QuotaOperateRequest request) {

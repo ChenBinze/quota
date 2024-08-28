@@ -1,9 +1,7 @@
 package com.quota.biz.template;
 
-import com.quota.api.enums.CurrencyEnum;
 import com.quota.api.enums.ErrorEnum;
 import com.quota.api.enums.QuotaOperateTypeEnum;
-import com.quota.api.enums.QuotaTypeEnum;
 import com.quota.api.reponse.QuotaOperateResponse;
 import com.quota.api.request.QuotaOperateRequest;
 import com.quota.dal.mapper.QuotaFlowMapper;
@@ -68,7 +66,7 @@ public class SubtractQuotaAmountTemplate extends QuotaOperateTemplate {
 
                         //3.3 判断扣减额度是否超过可用额度余额
                         if (request.getAmount().compareTo(dbQuotaInfo.getAmount()) > 0) {
-                            log.warn("用户可用额度[{}]小于扣减请求额度[{}], clientId:{}, operateType:{}, currency{}"
+                            log.warn("用户可用额度[{}]小于扣减请求额度[{}], clientId:{}, operateType:{}, currency:{}"
                                     , dbQuotaInfo.getAmount(), request.getAmount(), request.getClientId()
                                     , request.getOperateType(), request.getCurrency());
                             throw new QuotaException(ErrorEnum.QUOTA_NOT_ENOUGH.getErrorCode(),
@@ -99,19 +97,14 @@ public class SubtractQuotaAmountTemplate extends QuotaOperateTemplate {
     }
 
     private void checkSubtractQuotaAmountRequest(QuotaOperateRequest request) {
-        AssertUtils.isTrue(request == null, ErrorEnum.INVALID_PARAMETER.getErrorCode(), "额度扣减请求为空");
         AssertUtils.isTrue(StringUtils.isBlank(request.getClientId()),
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"用户id为空");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"clientId is null");
         AssertUtils.isTrue(StringUtils.isBlank(request.getQuotaType()),
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"额度类型为空");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"quotaType is null");
         AssertUtils.isTrue(StringUtils.isBlank(request.getCurrency()),
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"币种为空");
-        AssertUtils.isTrue(QuotaTypeEnum.getByCode(request.getQuotaType()) == null,
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"额度类型不在允许范围内");
-        AssertUtils.isTrue(CurrencyEnum.getByCode(request.getCurrency()) == null,
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"币种类型不在允许范围内");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"currency is null");
         AssertUtils.isTrue(request.getAmount() == null || request.getAmount().compareTo(BigDecimal.ZERO) <= 0,
-                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"额度扣减金额异常");
+                ErrorEnum.INVALID_PARAMETER.getErrorCode(),"abnormal amount");
     }
 
     private QuotaInfoDO selectLockByUqKey(QuotaOperateRequest request) {

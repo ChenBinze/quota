@@ -15,6 +15,6 @@ public interface QuotaInfoMapper {
 
     int updateByPrimaryKeySelective(QuotaInfoDO record);
 
-    List<QuotaInfoDO> selectPageList(@Param("quotaInfo") QuotaInfoDO quotaInfoDO, @Param("page") int page,
+    List<QuotaInfoDO> selectPageList(@Param("quotaInfo") QuotaInfoDO quotaInfoDO, @Param("start") int start,
                                      @Param("pageSize") int pageSize);
 }

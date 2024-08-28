@@ -87,6 +87,6 @@
     from quota_info
     <include refid="page_where"/>
     order by id
-    limit #{page},#{pageSize}
+    limit #{start},#{pageSize}
   </select>
 </mapper>

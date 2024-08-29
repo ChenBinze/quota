@@ -1,0 +1,48 @@
+额度信息表：
+CREATE TABLE `quota_info` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `clientId` varchar(32) NOT NULL COMMENT '用户id',
+  `quotaType` varchar(16) NOT NULL COMMENT '额度类型，例如creditCard-信用卡额度、 installment-分期额度等',
+  `currency` varchar(8) NOT NULL COMMENT '额度币种：例如156-人民币',
+  `amount` decimal(12,2) NOT NULL COMMENT '资金额度',
+  `status` varchar(16) NOT NULL COMMENT '额度账户状态，freeze-冻结、normal-正常、cancel-注销',
+  `remark` varchar(256) DEFAULT NULL COMMENT '备注',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_clientId_quotaType_currency` (`clientId`,`quotaType`,`currency`) 
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4
+描述：额度的关键信息
+1、主键自增id也可用自定义额度id来表示
+2、clientId + quotaType + currency为唯一约束，代表最细力度是买家+额度币种+额度类型，例如买家人民币维度信用卡额度
+3、状态：本次需求不需要，作为扩展，例如不同状态对应不同的操作权限
+
+额度操作流水表：
+CREATE TABLE `quota_flow` (
+  `clientId` varchar(32) NOT NULL COMMENT '用户id',
+  `quotaType` varchar(16) NOT NULL COMMENT '额度类型，例如creditCard-信用卡额度、 installment-分期额度等',
+  `currency` varchar(8) NOT NULL COMMENT '额度币种：例如156-人民币',
+  `amount` decimal(12,2) NOT NULL COMMENT '金额',
+  `operateType` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '操作类型，add-增加，subtract-扣减',
+  `remark` varchar(256) DEFAULT NULL COMMENT '备注',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  KEY `idx_clientId_quotaType_currency` (`clientId`,`quotaType`,`currency`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+描述：额度申请、增加、扣减时的流水记录
+
+定时任务信息：
+CREATE TABLE `quota_task` (
+  `taskId` varchar(28) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '任务id',
+  `clientId` varchar(32) NOT NULL COMMENT '用户id',
+  `quotaType` varchar(16) NOT NULL COMMENT '额度类型，例如creditCard-信用卡额度、 installment-分期额度等',
+  `currency` varchar(8) NOT NULL COMMENT '额度币种：例如156-人民币',
+  `amount` decimal(12,2) NOT NULL COMMENT '资金额度',
+  `operateType` varchar(16) NOT NULL COMMENT '操作类型，apply-申请 add-增加，subtract-扣减',
+  `retryCount` tinyint NOT NULL COMMENT '重试次数',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`taskId` DESC) USING BTREE,
+  KEY `idx_retryCount` (`retryCount`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+描述：需要定时任务处理的额度操作任务明细

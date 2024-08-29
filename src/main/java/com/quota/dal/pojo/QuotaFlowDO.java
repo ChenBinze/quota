@@ -28,7 +28,7 @@ public class QuotaFlowDO {
     private BigDecimal amount;
 
     /**
-     * 操作类型
+     * 操作类型，apply-初始化，add-增加，subtract-扣减
      */
     private String operateType;
 

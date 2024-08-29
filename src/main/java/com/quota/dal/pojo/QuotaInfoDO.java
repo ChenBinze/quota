@@ -15,22 +15,22 @@ public class QuotaInfoDO {
     private String clientId;
 
     /**
-     * 额度类型
+     * 额度类型，例如creditCard-信用卡额度、 installment-分期额度等
      */
     private String quotaType;
 
     /**
-     * 币种
+     * 额度币种：例如156-人民币
      */
     private String currency;
 
     /**
-     * 金额
+     * 资金额度
      */
     private BigDecimal amount;
 
     /**
-     * 额度状态
+     * 额度账户状态，1-冻结、2-正常、3-注销
      */
     private String status;
 

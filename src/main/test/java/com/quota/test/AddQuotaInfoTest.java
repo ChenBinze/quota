@@ -42,7 +42,6 @@ public class AddQuotaInfoTest {
         applyRequest.setOperateType(QuotaOperateTypeEnum.APPLY.getCode());
         applyRequest.setCurrency(CurrencyEnum.CNY.getCode());
         applyRequest.setAmount(new BigDecimal("0"));
-        applyRequest.setRemark("初始化");
         QuotaOperateResponse applyResponse = quotaOperateService.operate(applyRequest);
 
         //额度初始化后操作额度新增

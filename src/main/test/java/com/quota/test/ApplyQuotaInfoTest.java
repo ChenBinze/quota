@@ -40,7 +40,6 @@ public class ApplyQuotaInfoTest {
         quotaOperateRequest.setOperateType(QuotaOperateTypeEnum.APPLY.getCode());
         quotaOperateRequest.setCurrency(CurrencyEnum.CNY.getCode());
         quotaOperateRequest.setAmount(new BigDecimal("10")); //大于0，小于0，等于0，不传
-        quotaOperateRequest.setRemark("初始化");
         QuotaOperateResponse quotaOperateResponse = quotaOperateService.operate(quotaOperateRequest);
         System.out.println("额度申请结果:"+ quotaOperateResponse.getErrorCode() + ":" + quotaOperateResponse.getErrorMessage());
     }
@@ -58,7 +57,6 @@ public class ApplyQuotaInfoTest {
         quotaOperateRequest.setOperateType(QuotaOperateTypeEnum.APPLY.getCode());
         quotaOperateRequest.setCurrency(CurrencyEnum.CNY.getCode());
         quotaOperateRequest.setAmount(new BigDecimal("100"));
-        quotaOperateRequest.setRemark("初始化");
         QuotaOperateResponse quotaOperateResponse = quotaOperateService.operate(quotaOperateRequest);
         if (StringUtils.equals(quotaOperateResponse.getErrorCode(), ErrorEnum.SUCCESS.getErrorCode())) {
             QuotaOperateResponse retryResponse = quotaOperateService.operate(quotaOperateRequest);
@@ -75,7 +73,6 @@ public class ApplyQuotaInfoTest {
         quotaOperateRequest.setOperateType(QuotaOperateTypeEnum.APPLY.getCode());
         quotaOperateRequest.setCurrency(CurrencyEnum.CNY.getCode());
         quotaOperateRequest.setAmount(new BigDecimal("100"));
-        quotaOperateRequest.setRemark("初始化");
 
         //clientId is null
         quotaOperateRequest.setClientId(null);

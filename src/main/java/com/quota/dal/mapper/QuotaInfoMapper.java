@@ -17,4 +17,6 @@ public interface QuotaInfoMapper {
 
     List<QuotaInfoDO> selectPageList(@Param("quotaInfo") QuotaInfoDO quotaInfoDO, @Param("start") int start,
                                      @Param("pageSize") int pageSize);
+
+    int selectCount(QuotaInfoDO record);
 }

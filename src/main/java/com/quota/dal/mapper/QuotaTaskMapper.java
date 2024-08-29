@@ -13,4 +13,6 @@ public interface QuotaTaskMapper {
     void deleteByTaskId(@Param("taskId") String taskId);
 
     void updateRetryCountByTaskId(@Param("taskId") String taskId, @Param("retryCount") Integer retryCount, @Param("oriRetryCount") Integer oriRetryCount);
+
+    void insertSelective(QuotaTaskDO quotaTaskDO);
 }

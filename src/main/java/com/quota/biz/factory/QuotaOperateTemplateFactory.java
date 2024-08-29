@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 工厂类，用来路由方法类
+ */
 @Component
 public class QuotaOperateTemplateFactory {
 

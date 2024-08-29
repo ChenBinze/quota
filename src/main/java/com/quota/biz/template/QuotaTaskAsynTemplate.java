@@ -1,5 +1,6 @@
 package com.quota.biz.template;
 
+import com.alibaba.fastjson2.JSON;
 import com.quota.api.enums.ErrorEnum;
 import com.quota.api.enums.QuotaOperateTypeEnum;
 import com.quota.biz.exception.QuotaException;
@@ -39,6 +40,7 @@ public class QuotaTaskAsynTemplate {
     @Async("quotaExecutor")
     public void executeQuotaOperate(List<QuotaTaskDO> list) {
         for (QuotaTaskDO quotaTaskDO: list) {
+            log.info("开始操作定时任务数据quotaTaskDO[{}]", JSON.toJSON(quotaTaskDO));
             try {
                 doExecute(quotaTaskDO);
             } catch (QuotaException e) {

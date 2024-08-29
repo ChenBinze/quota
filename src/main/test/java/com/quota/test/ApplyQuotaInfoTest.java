@@ -39,7 +39,7 @@ public class ApplyQuotaInfoTest {
         quotaOperateRequest.setQuotaType(QuotaTypeEnum.CREDITCARD.getCode());
         quotaOperateRequest.setOperateType(QuotaOperateTypeEnum.APPLY.getCode());
         quotaOperateRequest.setCurrency(CurrencyEnum.CNY.getCode());
-        quotaOperateRequest.setAmount(new BigDecimal("0")); //大于0，小于0，等于0，不传
+        quotaOperateRequest.setAmount(new BigDecimal("10")); //大于0，小于0，等于0，不传
         quotaOperateRequest.setRemark("初始化");
         QuotaOperateResponse quotaOperateResponse = quotaOperateService.operate(quotaOperateRequest);
         System.out.println("额度申请结果:"+ quotaOperateResponse.getErrorCode() + ":" + quotaOperateResponse.getErrorMessage());

@@ -3,7 +3,9 @@ package com.quota.biz.template;
 import com.quota.api.enums.*;
 import com.quota.api.reponse.QuotaOperateResponse;
 import com.quota.api.request.QuotaOperateRequest;
+import com.quota.dal.mapper.QuotaFlowMapper;
 import com.quota.dal.mapper.QuotaInfoMapper;
+import com.quota.dal.pojo.QuotaFlowDO;
 import com.quota.dal.pojo.QuotaInfoDO;
 import com.quota.biz.exception.QuotaException;
 import com.quota.biz.util.AssertUtils;
@@ -21,6 +23,9 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * 额度申请方法类
+ */
 @Service
 @Slf4j
 public class ApplyQuotaTemplate extends QuotaOperateTemplate{
@@ -28,8 +33,11 @@ public class ApplyQuotaTemplate extends QuotaOperateTemplate{
     @Autowired
     private TransactionTemplate transactionTemplate;
 
-    @Resource
+    @Autowired
     private QuotaInfoMapper quotaInfoMapper;
+
+    @Autowired
+    private QuotaFlowMapper quotaFlowMapper;
 
     @Override
     public QuotaOperateTypeEnum getQuotaOperateType() {
@@ -40,10 +48,8 @@ public class ApplyQuotaTemplate extends QuotaOperateTemplate{
     protected QuotaOperateResponse operate(final QuotaOperateRequest request) {
         //1.参数校验
         checkApplyRequest(request);
-        //2.申请操作加redis分布式锁，并发控制
-        //此处不引入redis，后续代码也就不操作释放锁动作了
 
-        //3.开启事务逻辑处理
+        //2.开启事务逻辑处理
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
             @Override
@@ -57,6 +63,8 @@ public class ApplyQuotaTemplate extends QuotaOperateTemplate{
                                 ErrorEnum.REPEATED_APPLY.getErrorMsg());
                     }
                     insert(request);
+                    //2.5、新增额度申请流水
+                    insertQuotaFlow(request);
                 } catch (QuotaException e) {
                     throw e;
                 } catch (Exception e) {
@@ -102,5 +110,16 @@ public class ApplyQuotaTemplate extends QuotaOperateTemplate{
         quotaInfoDO.setStatus(QuotaStatusEnum.NORMAL.getCode());
         quotaInfoDO.setRemark(request.getRemark());
         quotaInfoMapper.insertSelective(quotaInfoDO);
+    }
+
+    private void insertQuotaFlow(QuotaOperateRequest request) {
+        QuotaFlowDO quotaFlowDO = new QuotaFlowDO();
+        quotaFlowDO.setClientId(request.getClientId());
+        quotaFlowDO.setQuotaType(request.getQuotaType());
+        quotaFlowDO.setCurrency(request.getCurrency());
+        quotaFlowDO.setOperateType(request.getOperateType());
+        quotaFlowDO.setAmount(request.getAmount());
+        quotaFlowDO.setRemark(request.getRemark());
+        quotaFlowMapper.insertSelective(quotaFlowDO);
     }
 }

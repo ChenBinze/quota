@@ -1,5 +1,6 @@
 package com.quota.biz.util;
 
+import com.quota.api.reponse.QuotaInfo;
 import com.quota.api.reponse.QuotaQueryResponse;
 import com.quota.api.request.QuotaQueryRequest;
 import com.quota.dal.pojo.QuotaInfoDO;
@@ -18,25 +19,25 @@ public class ConvertUtils {
         return quotaInfoDO;
     }
 
-    public static List<QuotaQueryResponse> convert(List<QuotaInfoDO> quotaInfoDOList) {
+    public static List<QuotaInfo> convert(List<QuotaInfoDO> quotaInfoDOList) {
         if (CollectionUtils.isEmpty(quotaInfoDOList)) {
             return null;
         }
-        List<QuotaQueryResponse> quotaQueryResponseList = new ArrayList<>();
+        List<QuotaInfo> quotaInfoList = new ArrayList<>();
         for (QuotaInfoDO quotaInfoDO : quotaInfoDOList) {
-            QuotaQueryResponse quotaQueryResponse = new QuotaQueryResponse();
-            quotaQueryResponse.setId(quotaInfoDO.getId());
-            quotaQueryResponse.setClientId(quotaInfoDO.getClientId());
-            quotaQueryResponse.setQuotaType(quotaInfoDO.getQuotaType());
-            quotaQueryResponse.setCurrency(quotaInfoDO.getCurrency());
-            quotaQueryResponse.setAmount(quotaInfoDO.getAmount());
-            quotaQueryResponse.setStatus(quotaInfoDO.getStatus());
-            quotaQueryResponse.setRemark(quotaInfoDO.getRemark());
-            quotaQueryResponse.setCreated(quotaInfoDO.getCreated());
-            quotaQueryResponse.setModified(quotaInfoDO.getModified());
-            quotaQueryResponseList.add(quotaQueryResponse);
+            QuotaInfo quotaInfo = new QuotaInfo();
+            quotaInfo.setId(quotaInfoDO.getId());
+            quotaInfo.setClientId(quotaInfoDO.getClientId());
+            quotaInfo.setQuotaType(quotaInfoDO.getQuotaType());
+            quotaInfo.setCurrency(quotaInfoDO.getCurrency());
+            quotaInfo.setAmount(quotaInfoDO.getAmount());
+            quotaInfo.setStatus(quotaInfoDO.getStatus());
+            quotaInfo.setRemark(quotaInfoDO.getRemark());
+            quotaInfo.setCreated(quotaInfoDO.getCreated());
+            quotaInfo.setModified(quotaInfoDO.getModified());
+            quotaInfoList.add(quotaInfo);
         }
-        return quotaQueryResponseList;
+        return quotaInfoList;
     }
 
 }

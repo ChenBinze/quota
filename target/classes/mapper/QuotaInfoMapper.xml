@@ -11,16 +11,16 @@
       <if test="clientId != null and clientId != ''">AND clientId = #{clientId}</if>
       <if test="quotaType != null and quotaType != ''">AND quotaType = #{quotaType}</if>
       <if test="currency != null and currency != ''">AND currency = #{currency}</if>
+      <if test="status != null and status != ''">AND status = #{status}</if>
     </where>
   </sql>
 
   <sql id="page_where">
     <where>
-      <if test="quotaInfo.id != null">AND quotaInfo.id = #{id}</if>
-      <if test="quotaInfo.clientId != null and quotaInfo.clientId != ''">AND quotaInfo.clientId = #{clientId}</if>
-      <if test="quotaInfo.quotaType != null and quotaInfo.quotaType != ''">AND quotaInfo.quotaType = #{quotaType}</if>
-      <if test="quotaInfo.currency != null and quotaInfo.currency != ''">AND quotaInfo.currency = #{currency}</if>
-      <if test="quotaInfo.status != null and quotaInfo.status != ''">AND quotaInfo.status = #{status}</if>
+      <if test="quotaInfo.clientId != null and quotaInfo.clientId != ''">AND clientId = #{quotaInfo.clientId}</if>
+      <if test="quotaInfo.quotaType != null and quotaInfo.quotaType != ''">AND quotaType = #{quotaInfo.quotaType}</if>
+      <if test="quotaInfo.currency != null and quotaInfo.currency != ''">AND currency = #{quotaInfo.currency}</if>
+      <if test="quotaInfo.status != null and quotaInfo.status != ''">AND status = #{quotaInfo.status}</if>
     </where>
   </sql>
 
@@ -88,5 +88,11 @@
     <include refid="page_where"/>
     order by id
     limit #{start},#{pageSize}
+  </select>
+
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*)
+    from quota_info
+    <include refid="common_where"/>
   </select>
 </mapper>

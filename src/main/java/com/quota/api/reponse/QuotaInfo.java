@@ -1,11 +1,17 @@
-package com.quota.dal.pojo;
+package com.quota.api.reponse;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class QuotaInfoDO {
+/**
+ * 额度信息字段
+ */
+public class QuotaInfo implements Serializable {
+    private static final long serialVersionUID = -215375260778588054L;
+
     /**
-     * 主键id
+     * 数据库中主键
      */
     private Integer id;
 
@@ -16,21 +22,24 @@ public class QuotaInfoDO {
 
     /**
      * 额度类型
+     * @see com.quota.api.enums.QuotaTypeEnum
      */
     private String quotaType;
 
     /**
-     * 币种
+     * 额度币种
+     * @see com.quota.api.enums.CurrencyEnum
      */
     private String currency;
 
     /**
-     * 金额
+     * 额度资金
      */
     private BigDecimal amount;
 
     /**
      * 额度状态
+     * @see com.quota.api.enums.QuotaStatusEnum
      */
     private String status;
 

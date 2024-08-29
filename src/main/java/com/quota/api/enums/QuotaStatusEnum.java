@@ -1,5 +1,8 @@
 package com.quota.api.enums;
 
+/**
+ * 额度状态类型
+ */
 public enum QuotaStatusEnum {
     FREEZE("freeze", "冻结"),
     NORMAL("normal", "正常"),

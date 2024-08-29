@@ -4,8 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.Executor;
 
+/**
+ * 自定义线程池
+ */
 @Configuration
 public class AsyncConfig {
     @Bean("quotaExecutor")

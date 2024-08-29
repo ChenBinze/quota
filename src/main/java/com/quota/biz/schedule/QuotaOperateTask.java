@@ -11,6 +11,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
+/**
+ * 定时任务
+ */
 @Component
 public class QuotaOperateTask {
 
@@ -20,13 +23,19 @@ public class QuotaOperateTask {
     @Autowired
     private QuotaTaskMapper quotaTaskMapper;
 
-    @Scheduled(fixedDelay = 10 * DateUtils.MILLIS_PER_SECOND,initialDelay = 2 * DateUtils.MILLIS_PER_SECOND)
+    @Scheduled(fixedDelay = 10 * DateUtils.MILLIS_PER_SECOND,initialDelay = 10 * DateUtils.MILLIS_PER_SECOND)
     public void operateQuotaAmount() {
-        List<QuotaTaskDO> quotaTaskDOS = quotaTaskMapper.selectPageList(1, 0, 100);
+        //根据数据已重试次数对应不同周期的定时任务，这里这个定时任务只处理没操作过的任务数据
+        //每次捞取100条数据，处理成功后任务数据删除，retryCount加1，走其他周期的定时任务
+        //可以针对retryCount制定重试次数阀值，到达阀值后告警等处理
+        List<QuotaTaskDO> quotaTaskDOS = quotaTaskMapper.selectPageList(0, 0, 100);
         if (CollectionUtils.isEmpty(quotaTaskDOS)) {
             return;
         }
 
+        //捞取出来的数据，根据clientId + quotaType + currency分组，这里因为我设计这几个为额度的唯一约束
+        //如果捞取的数据串行执行太慢；如果全部并行则因为后续要对db数据加锁操作，如果同个额度信息并发的话会导致抢锁从而出现失败
+        //所以针对额度信息的唯一约束进行分组，组与组之间并行操作，同组里面的数据串行执行
         Map<String, List<QuotaTaskDO>> dbQuotaTaskMap = new HashMap<>();
         for (QuotaTaskDO quotaTaskDO : quotaTaskDOS) {
             String taskKey = new StringBuilder().append(quotaTaskDO.getClientId()).append("_")
@@ -40,6 +49,7 @@ public class QuotaOperateTask {
             }
         }
 
+        //针对额度信息的唯一约束进行分组后，组与组之间并行操作，同组里面的数据串行执行
         for (Map.Entry<String, List<QuotaTaskDO>> entry : dbQuotaTaskMap.entrySet()) {
             quotaOperateAsynTemplate.executeQuotaOperate(entry.getValue());
         }

@@ -2,6 +2,9 @@ package com.quota.api.request;
 
 import java.io.Serializable;
 
+/**
+ * 额度信息查询请求
+ */
 public class QuotaQueryRequest implements Serializable {
     private static final long serialVersionUID = 54284485950393273L;
 
@@ -22,6 +25,10 @@ public class QuotaQueryRequest implements Serializable {
      */
     private String currency;
 
+    /**
+     * 状态
+     * @see com.quota.api.enums.QuotaStatusEnum
+     */
     private String status;
 
     /**

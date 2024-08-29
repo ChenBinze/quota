@@ -3,6 +3,9 @@ package com.quota.api.request;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * 额度操作请求，包含申请、额度新增、额度扣减，后续也可以扩展到额度冻结之类的操作
+ */
 public class QuotaOperateRequest implements Serializable {
 
     private static final long serialVersionUID = -3689060344488874530L;

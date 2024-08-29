@@ -1,5 +1,6 @@
 package com.quota.biz.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.quota.api.enums.ErrorEnum;
 import com.quota.api.enums.QuotaOperateTypeEnum;
 import com.quota.api.reponse.QuotaOperateResponse;
@@ -14,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * 额度操作接口实现类
+ */
 @Service
 @Slf4j
 public class QuotaOperateServiceImpl implements QuotaOperateService {
@@ -22,9 +26,11 @@ public class QuotaOperateServiceImpl implements QuotaOperateService {
     private QuotaOperateTemplateFactory quotaOperateTemplateFactory;
     @Override
     public QuotaOperateResponse operate(QuotaOperateRequest request) {
-
+        log.info("接收到额度操作请求QuotaOperateRequest[{}]", JSON.toJSON(request));
         try {
-            AssertUtils.isTrue(request == null, ErrorEnum.INVALID_PARAMETER.getErrorCode(), "request is null");
+            AssertUtils.isTrue(request == null, ErrorEnum.INVALID_PARAMETER.getErrorCode()
+                    , "request is null");
+            //路由到对应的方法类
             QuotaOperateTemplate quotaOperateTemplate = quotaOperateTemplateFactory
                     .route(QuotaOperateTypeEnum.getByCode(request.getOperateType()));
             if (null == quotaOperateTemplate) {

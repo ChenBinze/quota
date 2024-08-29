@@ -1,5 +1,8 @@
 package com.quota.api.enums;
 
+/**
+ * 错误码枚举
+ */
 public enum ErrorEnum {
     SUCCESS("SUCCESS", "成功"),
     ACTION_NOT_ALLOW("ACTION_NOT_ALLOW", "不允许该操作"),

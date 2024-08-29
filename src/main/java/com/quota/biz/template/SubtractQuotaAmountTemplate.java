@@ -21,6 +21,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 
+/**
+ * 额度扣减方法类
+ */
 @Component
 @Slf4j
 public class SubtractQuotaAmountTemplate extends QuotaOperateTemplate {
@@ -44,54 +47,51 @@ public class SubtractQuotaAmountTemplate extends QuotaOperateTemplate {
         //1.参数校验
         checkSubtractQuotaAmountRequest(request);
 
-        //2.申请操作加redis分布式锁，并发控制
-        //此处不引入redis，后续代码也就不操作释放锁动作了
+        //2.开启事务逻辑处理
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
-        //3.开启事务逻辑处理
-            transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            public void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
+                try {
+                    //2.1 锁db数据
+                    QuotaInfoDO dbQuotaInfo = selectLockByUqKey(request);
 
-                @Override
-                public void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
-                    try {
-                        //3.1 锁db数据
-                        QuotaInfoDO dbQuotaInfo = selectLockByUqKey(request);
-
-                        //3.2 判断额度信息是否存在
-                        if (dbQuotaInfo == null) {
-                            log.warn("用户额度信息不存在，请先申请!clientId:{}, operateType:{}, currency{}"
-                                    , request.getClientId(), request.getOperateType(), request.getCurrency());
-                            throw new QuotaException(ErrorEnum.QUOTA_NOT_EXIST.getErrorCode(),
-                                    ErrorEnum.QUOTA_NOT_EXIST.getErrorMsg());
-                        }
-
-                        //3.3 判断扣减额度是否超过可用额度余额
-                        if (request.getAmount().compareTo(dbQuotaInfo.getAmount()) > 0) {
-                            log.warn("用户可用额度[{}]小于扣减请求额度[{}], clientId:{}, operateType:{}, currency:{}"
-                                    , dbQuotaInfo.getAmount(), request.getAmount(), request.getClientId()
-                                    , request.getOperateType(), request.getCurrency());
-                            throw new QuotaException(ErrorEnum.QUOTA_NOT_ENOUGH.getErrorCode(),
-                                    ErrorEnum.QUOTA_NOT_ENOUGH.getErrorMsg());
-                        }
-
-                        //3.4 这里可以做额度状态判断，不同状态的额度操作权限不一样，此处做扩展，看明确需求
-
-                        //3.5 更新额度信息数据库
-                        updateQuota(request, dbQuotaInfo);
-
-                        //3.6 新增额度流水
-                        insertQuotaFlow(request);
-
-                    } catch (QuotaException e) {
-                        throw e;
-                    } catch (Exception e) {
-                        log.error("用户发起额度扣减操作异常，请排查!clientId:{}, operateType:{}, currency{}, exception:{}"
-                                , request.getClientId(), request.getOperateType()
-                                , request.getCurrency(), request.getAmount(), e);
-                        throw new QuotaException(ErrorEnum.SYSTEM_ERROR.getErrorCode(),
-                                ErrorEnum.SYSTEM_ERROR.getErrorMsg());
+                    //2.2 判断额度信息是否存在
+                    if (dbQuotaInfo == null) {
+                        log.warn("用户额度信息不存在，请先申请!clientId:{}, operateType:{}, currency{}"
+                                , request.getClientId(), request.getOperateType(), request.getCurrency());
+                        throw new QuotaException(ErrorEnum.QUOTA_NOT_EXIST.getErrorCode(),
+                                ErrorEnum.QUOTA_NOT_EXIST.getErrorMsg());
                     }
+
+                    //2.3 判断扣减额度是否超过可用额度余额
+                    if (request.getAmount().compareTo(dbQuotaInfo.getAmount()) > 0) {
+                        log.warn("用户可用额度[{}]小于扣减请求额度[{}], clientId:{}, operateType:{}, currency:{}"
+                                , dbQuotaInfo.getAmount(), request.getAmount(), request.getClientId()
+                                , request.getOperateType(), request.getCurrency());
+                        throw new QuotaException(ErrorEnum.QUOTA_NOT_ENOUGH.getErrorCode(),
+                                ErrorEnum.QUOTA_NOT_ENOUGH.getErrorMsg());
+                    }
+
+                    //2.4 这里可以做额度状态判断，不同状态的额度操作权限不一样，此处做扩展，看明确需求
+
+                    //2.5 更新额度信息数据库
+                    updateQuota(request, dbQuotaInfo);
+
+                    //2.6 新增额度流水
+                    insertQuotaFlow(request);
+
+                } catch (QuotaException e) {
+                    throw e;
+                } catch (Exception e) {
+                    log.error("用户发起额度扣减操作异常，请排查!clientId:{}, operateType:{}, currency{}, exception:{}"
+                            , request.getClientId(), request.getOperateType()
+                            , request.getCurrency(), request.getAmount(), e);
+                    throw new QuotaException(ErrorEnum.SYSTEM_ERROR.getErrorCode(),
+                            ErrorEnum.SYSTEM_ERROR.getErrorMsg());
                 }
-            });
+            }
+        });
         return QuotaOperateResponseUtils.buidQuotaOperateResponse(ErrorEnum.SUCCESS.getErrorCode(),
                 ErrorEnum.SUCCESS.getErrorMsg());
     }

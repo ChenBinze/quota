@@ -12,6 +12,6 @@ public interface QuotaQueryService {
      * @param quotaQueryRequest
      * @return
      */
-    List<QuotaQueryResponse> queryQuotaDetail(QuotaQueryRequest quotaQueryRequest);
+    QuotaQueryResponse queryQuotaDetails(QuotaQueryRequest quotaQueryRequest);
 
 }

@@ -21,6 +21,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 
+/**
+ * 额度新增方法类
+ */
 @Service
 @Slf4j
 public class AddQuotaAmountTemplate extends QuotaOperateTemplate{
@@ -44,19 +47,16 @@ public class AddQuotaAmountTemplate extends QuotaOperateTemplate{
         //1.参数校验
         checkAddQuotaAmountRequest(request);
 
-        //2.申请操作加redis分布式锁，并发控制
-        //此处不引入redis，后续代码也就不操作释放锁动作了
-
-        //3.开启事务逻辑处理
+        //2.开启事务逻辑处理
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
             @Override
             public void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
                 try {
-                    //3.1.锁db数据
+                    //2.1.锁db数据
                     QuotaInfoDO dbQuotaInfo = selectLockByUqKey(request);
 
-                    //3.2.判断额度信息是否存在
+                    //2.2.判断额度信息是否存在
                     if (dbQuotaInfo == null) {
                         log.warn("用户额度信息不存在，请先申请!clientId:{}, operateType:{}, currency{}"
                                 , request.getClientId(), request.getOperateType(), request.getCurrency());
@@ -64,16 +64,16 @@ public class AddQuotaAmountTemplate extends QuotaOperateTemplate{
                                 ErrorEnum.QUOTA_NOT_EXIST.getErrorMsg());
                     }
 
-                    //3.3.这里可以做额度状态判断，不同状态的额度操作权限不一样，此处做扩展，看明确需求
+                    //2.3.这里可以做额度状态判断，不同状态的额度操作权限不一样，此处做扩展，看明确需求
 
-                    //3.4.更新额度信息数据库
+                    //2.4.更新额度信息数据库
                     updateQuota(request, dbQuotaInfo);
-                    //3.5、新增额度流水
+                    //2.5、新增额度流水
                     insertQuotaFlow(request);
                 } catch (QuotaException e) {
                     throw e;
                 } catch (Exception e) {
-                    log.error("用户发起额度增加操作异常，请排查!clientId:{}, operateType:{}, currency{}, exception:{}"
+                    log.error("用户发起额度增加操作异常，clientId:{}, operateType:{}, currency{}, exception:{}"
                             , request.getClientId(), request.getOperateType()
                             , request.getCurrency(), request.getAmount(), e);
                     throw new QuotaException(ErrorEnum.SYSTEM_ERROR.getErrorCode(),
